@@ -20,6 +20,7 @@ stats bubble_sorting(typename vector<T> :: iterator begin, typename vector<T> ::
 			{
 				swap(*j, *(j + 1));
 				count.copy_count++;
+
 			}
 			count.comparison_count++;
 		}
