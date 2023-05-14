@@ -6,6 +6,7 @@
 #include <fstream>
 #include <conio.h>
 #include <Windows.h>
+#include <string>
 using namespace std;
 
 struct stats {
@@ -143,18 +144,18 @@ void print_array(const vector<T>& arr)
 template<typename T>
 void mean_time()
 {
-	int size = 1000;
+	int size = 8000;
 	fstream file_buble, file_shell, file_comb;
 	file_buble.open("mean_time_buble.txt", ios::app);
 	file_shell.open("mean_time_shell.txt", ios::app);
 	file_comb.open("mean_time_comb.txt", ios::app);
 
-	while (size < 1001)
+	while (size < 100001)
 	{
 		chrono::duration<float> result_buble(0), result_shell(0), result_comb(0);
 		
-		long int mean_copy_buble = 0, mean_copy_shell = 0, mean_copy_comb = 0;
-		long int mean_comp_buble = 0, mean_comp_shell = 0, mean_comp_comb = 0;
+		long long mean_copy_buble = 0, mean_copy_shell = 0, mean_copy_comb = 0;
+		long long mean_comp_buble = 0, mean_comp_shell = 0, mean_comp_comb = 0;
 
 		for (int i = 0; i < 100; i++)
 		{
@@ -170,7 +171,7 @@ void mean_time()
 			result_buble = start_buble - end_buble;
 
 			auto start_shell = chrono::high_resolution_clock::now();
-			res_shell = shell_sorting<T>(arr_2.begin(), arr_2.end(), arr_2.size());
+			//res_shell = shell_sorting<T>(arr_2.begin(), arr_2.end(), arr_2.size());
 			auto end_shell = chrono::high_resolution_clock::now();
 
 			result_shell = start_shell - end_shell;
@@ -194,16 +195,19 @@ void mean_time()
 		file_buble << "Число сравнений : " << mean_comp_buble / 100 << endl;
 		file_buble << "Число копирований : " << mean_copy_buble / 100 << endl;
 		file_buble << "Среднее время : " << -result_buble.count() / 100 << endl;
+		file_buble << endl;
 
 		file_shell << "Число эл-тов : " << size << endl;
 		file_shell << "Число сравнений : " << mean_comp_shell / 100 << endl;
 		file_shell << "Число копирований : " << mean_copy_shell / 100 << endl;
 		file_shell << "Среднее время : " << -result_shell.count() / 100 << endl;
+		file_shell << endl;
 
 		file_comb << "Число эл-тов : " << size << endl;
 		file_comb << "Число сравнений : " << mean_comp_comb / 100 << endl;
 		file_comb << "Число копирований : " << mean_copy_comb / 100 << endl;
 		file_comb << "Среднее время : " << -result_comb.count() / 100 << endl;
+		file_comb << endl;
 		
 		if (size < 10000)
 			size += 1000;
@@ -225,22 +229,22 @@ void mean_time()
 template<typename T>
 void sorted_time()
 {
-	int size = 1000;
+	int size = 100000;
 	fstream file_buble, file_shell, file_comb;
 	file_buble.open("sorted_time_buble.txt", ios::app);
 	file_shell.open("sorted_time_shell.txt", ios::app);
 	file_comb.open("sorted_time_comb.txt", ios::app);
 
-	while (size < 1001)
+	while (size < 100001)
 	{
 		chrono::duration<float> result_buble(0), result_shell(0), result_comb(0);
 
-		long int mean_copy_buble = 0, mean_copy_shell = 0, mean_copy_comb = 0;
-		long int mean_comp_buble = 0, mean_comp_shell = 0, mean_comp_comb = 0;
+		long long mean_copy_buble = 0, mean_copy_shell = 0, mean_copy_comb = 0;
+		long long mean_comp_buble = 0, mean_comp_shell = 0, mean_comp_comb = 0;
 
-		vector<T> arr_1 = create_anti_sort_vector<T>(size);
-		vector<T> arr_2 = create_anti_sort_vector<T>(size);
-		vector<T> arr_3 = create_anti_sort_vector<T>(size);
+		vector<T> arr_1 = create_sort_vector<T>(size);
+		vector<T> arr_2 = create_sort_vector<T>(size);
+		vector<T> arr_3 = create_sort_vector<T>(size);
 
 		stats res_buble, res_shell, res_comb;
 
@@ -251,7 +255,7 @@ void sorted_time()
 		result_buble = start_buble - end_buble;
 
 		auto start_shell = chrono::high_resolution_clock::now();
-		res_shell = shell_sorting<T>(arr_2.begin(), arr_2.end(), arr_2.size());
+		//res_shell = shell_sorting<T>(arr_2.begin(), arr_2.end(), arr_2.size());
 		auto end_shell = chrono::high_resolution_clock::now();
 
 		result_shell = start_shell - end_shell;
@@ -275,16 +279,19 @@ void sorted_time()
 		file_buble << "Число сравнений : " << mean_comp_buble << endl;
 		file_buble << "Число копирований : " << mean_copy_buble << endl;
 		file_buble << "Среднее время : " << -result_buble.count()  << endl;
+		file_buble << endl;
 
 		file_shell << "Число эл-тов : " << size << endl;
 		file_shell << "Число сравнений : " << mean_comp_shell << endl;
 		file_shell << "Число копирований : " << mean_copy_shell  << endl;
 		file_shell << "Среднее время : " << -result_shell.count()  << endl;
+		file_shell << endl;
 
 		file_comb << "Число эл-тов : " << size << endl;
 		file_comb << "Число сравнений : " << mean_comp_comb  << endl;
 		file_comb << "Число копирований : " << mean_copy_comb  << endl;
 		file_comb << "Среднее время : " << -result_comb.count()  << endl;
+		file_comb << endl;
 
 		if (size < 10000)
 			size += 1000;
@@ -305,22 +312,22 @@ void sorted_time()
 template<typename T>
 void back_sorted_time()
 {
-	int size = 1000;
+	int size = 50000;
 	fstream file_buble, file_shell, file_comb;
 	file_buble.open("back_sorted_buble.txt", ios::app);
 	file_shell.open("back_sorted_shell.txt", ios::app);
 	file_comb.open("back_sorted_comb.txt", ios::app);
 
-	while (size < 1001)
+	while (size < 100001)
 	{
 		chrono::duration<float> result_buble(0), result_shell(0), result_comb(0);
 
-		long int mean_copy_buble = 0, mean_copy_shell = 0, mean_copy_comb = 0;
-		long int mean_comp_buble = 0, mean_comp_shell = 0, mean_comp_comb = 0;
+		long long mean_copy_buble = 0, mean_copy_shell = 0, mean_copy_comb = 0;
+		long long mean_comp_buble = 0, mean_comp_shell = 0, mean_comp_comb = 0;
 
-		vector<T> arr_1 = create_sort_vector<T>(size);
-		vector<T> arr_2 = create_sort_vector<T>(size);
-		vector<T> arr_3 = create_sort_vector<T>(size);
+		vector<T> arr_1 = create_anti_sort_vector<T>(size);
+		vector<T> arr_2 = create_anti_sort_vector<T>(size);
+		vector<T> arr_3 = create_anti_sort_vector<T>(size);
 
 		stats res_buble, res_shell, res_comb;
 
@@ -331,7 +338,7 @@ void back_sorted_time()
 		result_buble = start_buble - end_buble;
 
 		auto start_shell = chrono::high_resolution_clock::now();
-		res_shell = shell_sorting<T>(arr_2.begin(), arr_2.end(), arr_2.size());
+		//res_shell = shell_sorting<T>(arr_2.begin(), arr_2.end(), arr_2.size());
 		auto end_shell = chrono::high_resolution_clock::now();
 
 		result_shell = start_shell - end_shell;
@@ -355,25 +362,30 @@ void back_sorted_time()
 		file_buble << "Число сравнений : " << mean_comp_buble << endl;
 		file_buble << "Число копирований : " << mean_copy_buble << endl;
 		file_buble << "Среднее время : " << -result_buble.count() << endl;
+		file_buble << endl;
 
 		file_shell << "Число эл-тов : " << size << endl;
 		file_shell << "Число сравнений : " << mean_comp_shell << endl;
 		file_shell << "Число копирований : " << mean_copy_shell << endl;
 		file_shell << "Среднее время : " << -result_shell.count() << endl;
+		file_shell << endl;
 
 		file_comb << "Число эл-тов : " << size << endl;
 		file_comb << "Число сравнений : " << mean_comp_comb << endl;
 		file_comb << "Число копирований : " << mean_copy_comb << endl;
 		file_comb << "Среднее время : " << -result_comb.count() << endl;
+		file_comb << endl;
 
 		if (size < 10000)
 			size += 1000;
 		else
 		{
-			if (size == 10000)
+			if (size == 10000 )
 				size = 25000;
-			else
-				size += 25000;
+			else if( size == 25000)
+				size = 50000;
+			else if (size == 50000)
+				size = 100000;
 		}
 
 	}
